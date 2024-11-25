@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISPOA - Sistema de Gestión Agrícola</title>
+    <style>
+        :root {
+            --color-principal: #3b8f29; /* Verde principal */
+            --color-secundario: #dbe1d0; /* Verde claro */
+            --color-cafe: #6a4e23; /* Café oscuro */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--color-principal);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--color-principal);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: var(--color-cafe);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--color-principal);
+            color: white;
+        }
+
+        button {
+            background-color: var(--color-principal);
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: var(--color-cafe);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Página de ingreso -->
+    <div class="login-container">
+        <div class="login-form">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Nombre de usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Módulos después de iniciar sesión -->
+    <div id="mainContent" style="display:none;">
+        <header>
+            <h1>Sistema de Gestión Agrícola (SISPOA)</h1>
+        </header>
+
+        <main>
+            <button onclick="abrirModal('saldo')">Consulta de Saldo</button>
+            <button onclick="abrirModal('proveedores')">Proveedores</button>
+            <button onclick="abrirModal('registro')">Registro de Usuario</button>
+            <button onclick="cerrarSesion()">Cerrar Sesión</button>
+
+            <!-- Modal Consulta de Saldo -->
+            <div id="saldo" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="cerrarModal('saldo')">&times;</span>
+                    <h3>Consulta de Saldo</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cuenta</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Cuenta 001</td><td>$5,000</td></tr>
+                            <tr><td>Cuenta 002</td><td>$3,000</td></tr>
+                            <tr><td>Cuenta 003</td><td>$2,500</td></tr>
+                            <tr><td>Cuenta 004</td><td>$7,800</td></tr>
+                        </tbody>
+                    </table>
+                    <button onclick="volverMenu('saldo')">Regresar al Menú</button>
+                </div>
+            </div>
+
+            <!-- Modal Proveedores -->
+            <div id="proveedores" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="cerrarModal('proveedores')">&times;</span>
+                    <h3>Proveedores</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Proveedor</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>AgroProveedores S.A.</td><td>Semillas</td><td>$500</td></tr>
+                            <tr><td>Fertilizantes XYZ</td><td>Fertilizantes</td><td>$300</td></tr>
+                            <tr><td>AgroTech Ltda.</td><td>Herramientas</td><td>$150</td></tr>
+                            <tr><td>FertAgro S.A.</td><td>Pesticidas</td><td>$400</td></tr>
+                        </tbody>
+                    </table>
+                    <button onclick="volverMenu('proveedores')">Regresar al Menú</button>
+                </div>
+            </div>
+
+            <!-- Modal Registro -->
+            <div id="registro" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="cerrarModal('registro')">&times;</span>
+                    <h3>Registro de Usuario</h3>
+                    <div class="form-container">
+                        <form>
+                            <input type="text" placeholder="Nombre Completo">
+                            <input type="email" placeholder="Correo Electrónico">
+                            <input type="password" placeholder="Contraseña">
+                            <button type="submit">Registrar</button>
+                        </form>
+                    </div>
+                    <button onclick="volverMenu('registro')">Regresar al Menú</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 SISPOA. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para mostrar los módulos
+        function abrirModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        // Función para cerrar los módulos
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Función para regresar al menú
+        function volverMenu(modalId) {
+            cerrarModal(modalId);
+        }
+
+        // Función de cierre de sesión
+        function cerrarSesion() {
+            alert("Sesión cerrada");
+            location.reload(); // Recarga la página para volver al inicio
+        }
+
+        // Función de inicio de sesión
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            if (username === 'usuario' && password === 'contraseña') {
+                document.querySelector('.login-container').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                alert("Credenciales incorrectas. Intenta de nuevo.");
+            }
+        });
+    </script>
+
+</body>
+</html>
